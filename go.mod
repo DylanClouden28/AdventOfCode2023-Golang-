@@ -1,3 +1,3 @@
-module AdventOfCode2023-Golang-
+module AdventOfCode2023
 
 go 1.21.4
