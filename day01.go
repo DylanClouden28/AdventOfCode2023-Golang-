@@ -1,4 +1,4 @@
-/* package main
+package main
 
 import (
 	"fmt"
@@ -43,7 +43,7 @@ func main() {
 			break
 		}
 
-		fmt.Println(line)
+		//fmt.Println(line)
 		var firstnum rune = -1
 		var secondnum rune = -1
 		for i, char := range line {
@@ -61,106 +61,94 @@ func main() {
 			}
 			slice := line[i:end]
 			//fmt.Println("Slice: ", slice)
-			var found bool = false
-			for key := range numbers {
-				if strings.Contains(slice, key) {
-					found = true
-					//fmt.Printf("Found %s: %d\n", key, numbers[key])
-				}
-				if found {
+			for word := range numbers {
+				if strings.HasPrefix(slice, word) {
 					if firstnum == -1 {
-						firstnum = rune(numbers[key])
+						firstnum = rune(numbers[word])
 						//fmt.Println("First Number", firstnum)
 					}
-					secondnum = rune(numbers[key])
-					//fmt.Println("Second Number", secondnum)
+					secondnum = rune(numbers[word])
 				}
-				found = false
 			}
 		}
 		//fmt.Println("First Number:", string(firstnum), " | Second Number:", string(secondnum))
 		var combined string = string(firstnum) + string(secondnum)
-		fmt.Println("	Combined", combined)
+		//fmt.Println("	Combined", combined)
 		value, _ := strconv.Atoi(combined)
+		//resultingNumbers2 = append(resultingNumbers2, value)
 		total += value
+
 	}
-	fmt.Printf("Total is %d", total)
-}
-*/
+	fmt.Printf("Total is %d\n", total)
 
-package main
+	// var resultingNumbers1 []int
+	// var resultingNumbers2 []int
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strconv"
-	"strings"
-)
+	// for k, line := range lines {
 
-func main() {
-	file, err := os.Open("text.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
+	// 	if line == "" {
+	// 		break
+	// 	}
 
-	var sumPart1, sumPart2 int
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		valuePart1 := getCalibrationValue(line, false)
-		sumPart1 += valuePart1
+	// 	//fmt.Println(line)
+	// 	var firstnum rune = -1
+	// 	var secondnum rune = -1
+	// 	for i, char := range line {
+	// 		num := int(char - '0')
+	// 		if num >= 0 && num < 10 {
+	// 			//fmt.Println(num)
+	// 			if firstnum == -1 {
+	// 				firstnum = char
+	// 			}
+	// 			secondnum = char
+	// 		}
+	// 		end := i + 5
+	// 		if end > len(line) {
+	// 			end = len(line)
+	// 		}
 
-		valuePart2 := getCalibrationValue(line, true)
-		sumPart2 += valuePart2
-	}
+	// 		slice := line[i:end]
+	// 		if k == 84 {
+	// 			fmt.Println("Slice: ", slice)
+	// 		}
+	// 		var found bool = false
+	// 		for key := range numbers {
+	// 			if strings.Contains(slice, key) {
+	// 				found = true
+	// 				if k == 84 {
+	// 					fmt.Printf("Found %s: %d\n", key, numbers[key])
+	// 				}
+	// 			}
+	// 			if found {
+	// 				if firstnum == -1 {
+	// 					firstnum = rune(numbers[key])
+	// 					if k == 84 {
+	// 						fmt.Println("First Number", firstnum)
+	// 					}
+	// 				}
+	// 				secondnum = rune(numbers[key])
+	// 				if k == 84 {
+	// 					fmt.Println("Second Number", secondnum)
+	// 				}
+	// 			}
+	// 			found = false
+	// 		}
+	// 	}
+	// 	//fmt.Println("First Number:", string(firstnum), " | Second Number:", string(secondnum))
+	// 	var combined string = string(firstnum) + string(secondnum)
+	// 	//fmt.Println("	Combined", combined)
+	// 	value, _ := strconv.Atoi(combined)
+	// 	resultingNumbers1 = append(resultingNumbers1, value)
+	// 	total += value
 
-	if err := scanner.Err(); err != nil {
-		panic(err)
-	}
+	// }
+	// fmt.Printf("Total is %d\n", total)
+	// total = 0
 
-	fmt.Printf("Sum of Part 1: %d\n", sumPart1)
-	fmt.Printf("Sum of Part 2: %d\n", sumPart2)
-}
-
-func getCalibrationValue(s string, includeWords bool) int {
-	first, last := getFirstAndLastDigits(s, includeWords)
-	return first*10 + last
-}
-
-func getFirstAndLastDigits(s string, includeWords bool) (int, int) {
-	digits := map[string]int{
-		"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
-		"six": 6, "seven": 7, "eight": 8, "nine": 9,
-	}
-
-	first, last := -1, -1
-	words := strings.Fields(s)
-
-	for _, word := range words {
-		for k, v := range digits {
-			if strings.Contains(word, k) {
-				if first == -1 {
-					first = v
-				} else {
-					last = v
-				}
-				break
-			}
-		}
-		if !includeWords && first == -1 && last == -1 {
-			for _, r := range word {
-				if r >= '0' && r <= '9' {
-					if first == -1 {
-						first, _ = strconv.Atoi(string(r))
-					} else {
-						last, _ = strconv.Atoi(string(r))
-					}
-				}
-			}
-		}
-	}
-
-	return first, last
+	// for index, result := range resultingNumbers1 {
+	// 	if result != resultingNumbers2[index] {
+	// 		fmt.Println(lines[index])
+	// 		fmt.Println("Result 1: ", result, "\ndoesn't match Result 2: ", resultingNumbers2[index], "\n")
+	// 	}
+	// }
 }
